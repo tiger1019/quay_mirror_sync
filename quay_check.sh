@@ -11,7 +11,7 @@ do
   image_manifest=$(curl -sk -X GET -H "Authorization: Bearer ${qs_api_token}" https://${quay_source}/api/v1/repository/${quay_org}/${images}/tag/ | jq -r -c '.tags[].manifest_digest');
   for manifest in ${image_manifest};
   do
-    image_staus=$(curl -sk -X GET -H "Authorization: Bearer ${qt_api_token}" https://${quay_target}/api/v1/repository/${quay_org}/${images}/manifest/${manifest}| jq .error_message)
+    image_staus=$(curl -sk -X GET -H "Authorization: Bearer ${qt_api_token}" https://${quay_target}/api/v1/repository/${quay_org}/${images}/manifest/${manifest}| jq -r -c '.error_message')
     
     if [ ${image_staus}=="null" ]; then
       continue;
